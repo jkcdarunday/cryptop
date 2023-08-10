@@ -154,7 +154,7 @@ pub fn draw_top_cryptos(
         .header(header)
         .widths(&widths);
 
-    app.set_scroll_area(area.height as u16 - 2u16);
+    app.set_scroll_area(area.height - 2u16);
 
     frame.render_widget(table, area);
     frame.render_stateful_widget(
@@ -172,7 +172,7 @@ pub fn draw_app(frame: &mut Frame<CrosstermBackend<Stdout>>, app: &mut AppState)
     });
 
     let block = Block::default()
-        .title("Cryptop")
+        .title("CrypTOP")
         .borders(Borders::ALL)
         .border_style(Style::default().fg(Color::Red))
         .border_type(BorderType::Rounded);
