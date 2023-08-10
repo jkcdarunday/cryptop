@@ -66,10 +66,18 @@ impl AppState {
     }
 
     pub fn animate(&mut self) {
-        if self.scroll < self.target_scroll {
-            self.scroll += 1;
-        } else if self.scroll > self.target_scroll {
-            self.scroll -= 1;
+        let diff = self.target_scroll as i32 - self.scroll as i32;
+
+        if diff > 1 {
+            self.scroll += (self.target_scroll - self.scroll) / 3;
+        }
+
+        if diff.abs() <= 1 {
+            self.scroll = self.target_scroll;
+        }
+
+        if diff < -1 {
+            self.scroll -= (self.scroll - self.target_scroll) / 3;
         }
 
         self.scroll_state = self.scroll_state.position(self.scroll);
