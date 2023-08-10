@@ -108,14 +108,18 @@ pub fn draw_top_cryptos(
         "Market Cap",
         "Volume (24h)",
     ];
+
+    let remaining_spaces = area.width - 6 - 16;
+    let remaining_columns = headers.len() - 2;
+    let column_width = remaining_spaces / remaining_columns as u16;
     let widths = [
-        Constraint::Min(3),
-        Constraint::Min(6),
-        Constraint::Percentage(15),
-        Constraint::Percentage(15),
-        Constraint::Percentage(15),
-        Constraint::Percentage(15),
-        Constraint::Percentage(15),
+        Constraint::Max(3),
+        Constraint::Max(16),
+        Constraint::Max(column_width),
+        Constraint::Max(column_width),
+        Constraint::Max(column_width),
+        Constraint::Max(column_width),
+        Constraint::Max(column_width),
     ];
 
     let header = Row::new(headers)
@@ -140,15 +144,13 @@ pub fn draw_top_cryptos(
                 Cell::from(format_price(crypto.market_cap)),
                 Cell::from(format_price(crypto.volume_24h)),
             ])
-            // .bottom_margin(1)
         })
         .skip(*scroll as usize)
         .collect();
 
     let table = Table::new(rows)
         .header(header)
-        .widths(&widths)
-        .column_spacing(10);
+        .widths(&widths);
 
     app.set_scroll_area(area.height as u16 - 2u16);
 
