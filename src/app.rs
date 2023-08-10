@@ -94,9 +94,15 @@ pub fn draw_top_cryptos(
         scroll,
         ..
     } = app;
-    let area = area.inner(&Margin {
+
+    let table_area = area.inner(&Margin {
         vertical: 2,
         horizontal: 5,
+    });
+
+    let scrollbar_area = area.inner(&Margin {
+        vertical: 2,
+        horizontal: 3,
     });
 
     let headers = vec![
@@ -109,7 +115,7 @@ pub fn draw_top_cryptos(
         Line::from("Volume (24h)").alignment(Alignment::Right),
     ];
 
-    let remaining_spaces = area.width - 3 - 16;
+    let remaining_spaces = table_area.width - 3 - 16;
     let remaining_columns = headers.len() - 2;
     let column_spacing = 4;
     let column_spacing_offset = (headers.len() * column_spacing) / remaining_columns;
@@ -157,12 +163,12 @@ pub fn draw_top_cryptos(
         .widths(&widths)
         .column_spacing(column_spacing as u16);
 
-    app.set_scroll_area(area.height - 2u16);
+    app.set_scroll_area(table_area.height - 2u16);
 
-    frame.render_widget(table, area);
+    frame.render_widget(table, table_area);
     frame.render_stateful_widget(
         Scrollbar::default().style(Style::default().fg(Color::Yellow)),
-        area,
+        scrollbar_area,
         &mut app.scroll_state,
     )
 }
