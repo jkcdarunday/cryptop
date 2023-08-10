@@ -109,9 +109,11 @@ pub fn draw_top_cryptos(
         "Volume (24h)",
     ];
 
-    let remaining_spaces = area.width - 6 - 16;
+    let remaining_spaces = area.width - 3 - 16;
     let remaining_columns = headers.len() - 2;
-    let column_width = remaining_spaces / remaining_columns as u16;
+    let column_spacing = 4;
+    let column_spacing_offset = (headers.len() * column_spacing) / remaining_columns;
+    let column_width = remaining_spaces / remaining_columns as u16 - column_spacing_offset as u16;
     let widths = [
         Constraint::Max(3),
         Constraint::Max(16),
@@ -150,7 +152,10 @@ pub fn draw_top_cryptos(
         .skip(*scroll as usize)
         .collect();
 
-    let table = Table::new(rows).header(header).widths(&widths);
+    let table = Table::new(rows)
+        .header(header)
+        .widths(&widths)
+        .column_spacing(column_spacing as u16);
 
     app.set_scroll_area(area.height - 2u16);
 
