@@ -169,10 +169,20 @@ pub fn draw_top_cryptos(
 
 pub fn draw_app(frame: &mut Frame<CrosstermBackend<Stdout>>, app: &mut AppState) {
     let size = frame.size();
-    let inner = size.inner(&Margin {
-        vertical: 3,
-        horizontal: 6,
-    });
+    let is_small = size.width <= 160;
+    let margin = if is_small {
+        Margin {
+            vertical: 0,
+            horizontal: 1,
+        }
+    } else {
+        Margin {
+            vertical: 3,
+            horizontal: 6,
+        }
+    };
+
+    let inner = size.inner(&margin);
 
     let block = Block::default()
         .title("CrypTOP")
