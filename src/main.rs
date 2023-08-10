@@ -57,7 +57,10 @@ fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<(), Box<dyn 
         if handle_event(&mut app)? {
             break;
         }
+
+        app.animate();
     }
+
 
     Ok(())
 }

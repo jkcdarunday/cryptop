@@ -16,6 +16,7 @@ use crate::{
 pub struct AppState {
     pub top_cryptos: Vec<CryptoPrice>,
     pub scroll: u16,
+    pub target_scroll: u16,
     pub scroll_area: u16,
     pub scroll_state: ScrollbarState,
 }
@@ -32,35 +33,43 @@ impl AppState {
         self.top_cryptos.len() as u16 - self.scroll_area
     }
 
-    fn scroll_up(&mut self) {
+    pub fn scroll_up(&mut self) {
         if self.scroll > 0 {
             self.scroll -= 1;
+            self.target_scroll = self.scroll;
             self.scroll_state = self.scroll_state.position(self.scroll);
         }
     }
 
-    fn scroll_down(&mut self) {
+    pub fn scroll_down(&mut self) {
         if self.scroll < self.max_position() {
             self.scroll += 1;
+            self.target_scroll = self.scroll;
             self.scroll_state = self.scroll_state.position(self.scroll);
         }
     }
 
-    fn scroll_down_page(&mut self) {
-        if self.scroll < self.max_position() - self.scroll_area {
-            self.scroll += self.scroll_area;
+    pub fn scroll_down_page(&mut self) {
+        if self.target_scroll < self.max_position() - self.scroll_area {
+            self.target_scroll += self.scroll_area;
         } else {
-            self.scroll = self.max_position();
+            self.target_scroll = self.max_position();
         }
-
-        self.scroll_state = self.scroll_state.position(self.scroll);
     }
 
-    fn scroll_up_page(&mut self) {
-        if self.scroll > self.scroll_area {
-            self.scroll -= self.scroll_area;
+    pub fn scroll_up_page(&mut self) {
+        if self.target_scroll > self.scroll_area {
+            self.target_scroll -= self.scroll_area;
         } else {
-            self.scroll = 0;
+            self.target_scroll = 0;
+        }
+    }
+
+    pub fn animate(&mut self) {
+        if self.scroll < self.target_scroll {
+            self.scroll += 1;
+        } else if self.scroll > self.target_scroll {
+            self.scroll -= 1;
         }
 
         self.scroll_state = self.scroll_state.position(self.scroll);
@@ -162,7 +171,7 @@ pub fn draw_app(frame: &mut Frame<CrosstermBackend<Stdout>>, app: &mut AppState)
 }
 
 pub fn handle_event(app: &mut AppState) -> Result<bool, Box<dyn Error>> {
-    if !event::poll(Duration::from_millis(250))? {
+    if !event::poll(Duration::from_millis(32))? {
         return Ok(false);
     }
 
