@@ -150,9 +150,7 @@ pub fn draw_top_cryptos(
         .skip(*scroll as usize)
         .collect();
 
-    let table = Table::new(rows)
-        .header(header)
-        .widths(&widths);
+    let table = Table::new(rows).header(header).widths(&widths);
 
     app.set_scroll_area(area.height - 2u16);
 
@@ -189,12 +187,24 @@ pub fn handle_event(app: &mut AppState) -> Result<bool, Box<dyn Error>> {
 
     if let Event::Key(k) = event::read()? {
         match k.code {
-            KeyCode::Down => { app.scroll_down(); }
-            KeyCode::Up => { app.scroll_up(); }
-            KeyCode::Char('r') => { app.top_cryptos = get_top_cryptos(); }
-            KeyCode::PageDown => { app.scroll_down_page(); }
-            KeyCode::PageUp => { app.scroll_up_page(); }
-            KeyCode::Char('q') => { return Ok(true); }
+            KeyCode::Down => {
+                app.scroll_down();
+            }
+            KeyCode::Up => {
+                app.scroll_up();
+            }
+            KeyCode::Char('r') => {
+                app.top_cryptos = get_top_cryptos()?;
+            }
+            KeyCode::PageDown => {
+                app.scroll_down_page();
+            }
+            KeyCode::PageUp => {
+                app.scroll_up_page();
+            }
+            KeyCode::Char('q') => {
+                return Ok(true);
+            }
             _ => {}
         }
     };

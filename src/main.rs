@@ -45,7 +45,7 @@ fn restore_terminal(
 }
 
 fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<(), Box<dyn Error>> {
-    let top_cryptos = get_top_cryptos();
+    let top_cryptos = get_top_cryptos()?;
     let mut app = AppState {
         top_cryptos,
         ..Default::default()
@@ -60,7 +60,6 @@ fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<(), Box<dyn 
 
         app.animate();
     }
-
 
     Ok(())
 }
