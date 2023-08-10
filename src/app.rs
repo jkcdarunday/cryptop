@@ -99,14 +99,14 @@ pub fn draw_top_cryptos(
         horizontal: 5,
     });
 
-    let headers = [
-        "#",
-        "Symbol",
-        "Name",
-        "Price",
-        "Change",
-        "Market Cap",
-        "Volume (24h)",
+    let headers = vec![
+        Line::from("#").alignment(Alignment::Right),
+        Line::from("Symbol"),
+        Line::from("Name"),
+        Line::from("Price").alignment(Alignment::Right),
+        Line::from("Change").alignment(Alignment::Right),
+        Line::from("Market Cap").alignment(Alignment::Right),
+        Line::from("Volume (24h)").alignment(Alignment::Right),
     ];
 
     let remaining_spaces = area.width - 3 - 16;
