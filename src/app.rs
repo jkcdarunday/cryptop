@@ -117,7 +117,7 @@ pub fn draw_top_cryptos(
 
     let remaining_spaces = table_area.width.saturating_sub(3 + 8);
     let remaining_columns = headers.len().saturating_sub(2);
-    let column_spacing = 4;
+    let column_spacing = 3;
     let column_spacing_offset = (headers.len() * column_spacing) / remaining_columns;
     let column_width =
         (remaining_spaces / remaining_columns as u16).saturating_sub(column_spacing_offset as u16);
