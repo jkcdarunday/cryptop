@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.72"
 crossterm = "0.27.0"
-ratatui = "0.22.0"
+ratatui = { git = "https://github.com/jkcdarunday/ratatui", branch = "feature/table-text-alignment" }
 serde_json = "1.0.104"
 to_precision = "0.1.2"
 ureq = { version = "2.7.1", features = ["json"] }

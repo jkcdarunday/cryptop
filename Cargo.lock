@@ -76,22 +76,6 @@ dependencies = [
 
 [[package]]
 name = "crossterm"
-version = "0.26.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a84cda67535339806297f1b331d6dd6320470d2a0fe65381e79ee9e156dd3d13"
-dependencies = [
- "bitflags 1.3.2",
- "crossterm_winapi",
- "libc",
- "mio",
- "parking_lot",
- "signal-hook",
- "signal-hook-mio",
- "winapi",
-]
-
-[[package]]
-name = "crossterm"
 version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f476fe445d41c9e991fd07515a6f463074b782242ccf4a5b7b1d1012e70824df"
@@ -120,7 +104,7 @@ name = "cryptop"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "crossterm 0.27.0",
+ "crossterm",
  "ratatui",
  "serde_json",
  "to_precision",
@@ -282,12 +266,11 @@ dependencies = [
 [[package]]
 name = "ratatui"
 version = "0.22.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8285baa38bdc9f879d92c0e37cb562ef38aa3aeefca22b3200186bc39242d3d5"
+source = "git+https://github.com/jkcdarunday/ratatui?branch=feature/table-text-alignment#a143db707e2f543b8db93a83ab2568c4cd2f1e80"
 dependencies = [
  "bitflags 2.3.3",
  "cassowary",
- "crossterm 0.26.1",
+ "crossterm",
  "indoc",
  "paste",
  "unicode-segmentation",
