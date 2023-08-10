@@ -26,11 +26,11 @@ impl AppState {
         self.scroll_area = area;
         self.scroll_state = self
             .scroll_state
-            .content_length(self.top_cryptos.len() as u16 - area);
+            .content_length((self.top_cryptos.len() as u16).saturating_sub(area));
     }
 
     fn max_position(&self) -> u16 {
-        self.top_cryptos.len() as u16 - self.scroll_area
+        (self.top_cryptos.len() as u16).saturating_sub(self.scroll_area)
     }
 
     pub fn scroll_up(&mut self) {
@@ -115,11 +115,12 @@ pub fn draw_top_cryptos(
         Line::from("Volume (24h)").alignment(Alignment::Right),
     ];
 
-    let remaining_spaces = table_area.width - 3 - 16;
-    let remaining_columns = headers.len() - 2;
+    let remaining_spaces = table_area.width.saturating_sub(3 + 16);
+    let remaining_columns = headers.len().saturating_sub(2);
     let column_spacing = 4;
     let column_spacing_offset = (headers.len() * column_spacing) / remaining_columns;
-    let column_width = remaining_spaces / remaining_columns as u16 - column_spacing_offset as u16;
+    let column_width =
+        (remaining_spaces / remaining_columns as u16).saturating_sub(column_spacing_offset as u16);
     let widths = [
         Constraint::Max(3),
         Constraint::Max(16),
@@ -163,7 +164,7 @@ pub fn draw_top_cryptos(
         .widths(&widths)
         .column_spacing(column_spacing as u16);
 
-    app.set_scroll_area(table_area.height - 2u16);
+    app.set_scroll_area(table_area.height.saturating_sub(2));
 
     frame.render_widget(table, table_area);
     frame.render_stateful_widget(
