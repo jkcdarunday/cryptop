@@ -28,6 +28,10 @@ impl AppState {
             .content_length(self.top_cryptos.len() as u16 - area);
     }
 
+    fn max_position(&self) -> u16 {
+        self.top_cryptos.len() as u16 - self.scroll_area
+    }
+
     fn scroll_up(&mut self) {
         if self.scroll > 0 {
             self.scroll -= 1;
@@ -36,10 +40,30 @@ impl AppState {
     }
 
     fn scroll_down(&mut self) {
-        if self.scroll < self.top_cryptos.len() as u16 - self.scroll_area {
+        if self.scroll < self.max_position() {
             self.scroll += 1;
             self.scroll_state = self.scroll_state.position(self.scroll);
         }
+    }
+
+    fn scroll_down_page(&mut self) {
+        if self.scroll < self.max_position() - self.scroll_area {
+            self.scroll += self.scroll_area;
+        } else {
+            self.scroll = self.max_position();
+        }
+
+        self.scroll_state = self.scroll_state.position(self.scroll);
+    }
+
+    fn scroll_up_page(&mut self) {
+        if self.scroll > self.scroll_area {
+            self.scroll -= self.scroll_area;
+        } else {
+            self.scroll = 0;
+        }
+
+        self.scroll_state = self.scroll_state.position(self.scroll);
     }
 }
 
@@ -155,6 +179,12 @@ pub fn handle_event(app: &mut AppState) -> Result<bool, Box<dyn Error>> {
             }
             KeyCode::Char('r') => {
                 app.top_cryptos = get_top_cryptos();
+            }
+            KeyCode::PageDown => {
+                app.scroll_down_page();
+            }
+            KeyCode::PageUp => {
+                app.scroll_up_page();
             }
             _ => {}
         },
