@@ -187,29 +187,16 @@ pub fn handle_event(app: &mut AppState) -> Result<bool, Box<dyn Error>> {
         return Ok(false);
     }
 
-    match event::read()? {
-        Event::Key(k) => match k.code {
-            KeyCode::Down => {
-                app.scroll_down();
-            }
-            KeyCode::Up => {
-                app.scroll_up();
-            }
-            KeyCode::Char('q') => {
-                return Ok(true);
-            }
-            KeyCode::Char('r') => {
-                app.top_cryptos = get_top_cryptos();
-            }
-            KeyCode::PageDown => {
-                app.scroll_down_page();
-            }
-            KeyCode::PageUp => {
-                app.scroll_up_page();
-            }
+    if let Event::Key(k) = event::read()? {
+        match k.code {
+            KeyCode::Down => { app.scroll_down(); }
+            KeyCode::Up => { app.scroll_up(); }
+            KeyCode::Char('r') => { app.top_cryptos = get_top_cryptos(); }
+            KeyCode::PageDown => { app.scroll_down_page(); }
+            KeyCode::PageUp => { app.scroll_up_page(); }
+            KeyCode::Char('q') => { return Ok(true); }
             _ => {}
-        },
-        _ => {}
+        }
     };
 
     Ok(false)
