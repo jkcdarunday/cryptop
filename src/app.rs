@@ -135,14 +135,16 @@ pub fn draw_top_cryptos(
             } else {
                 Color::Red
             });
+
+            let change_formatted = format!("{:.2}%", crypto.change);
             Row::new(vec![
-                Cell::from((index + 1).to_string()),
-                Cell::from(crypto.symbol.clone()),
-                Cell::from(crypto.name.clone()),
-                Cell::from(format_price(crypto.price)),
-                Cell::from(format!("{:.2}%", crypto.change)).style(change_style),
-                Cell::from(format_price(crypto.market_cap)),
-                Cell::from(format_price(crypto.volume_24h)),
+                Line::from((index + 1).to_string()).alignment(Alignment::Right),
+                Line::from(crypto.symbol.clone()),
+                Line::from(crypto.name.clone()),
+                Line::from(format_price(crypto.price)).alignment(Alignment::Right),
+                Line::styled(change_formatted, change_style).alignment(Alignment::Right),
+                Line::from(format_price(crypto.market_cap)).alignment(Alignment::Right),
+                Line::from(format_price(crypto.volume_24h)).alignment(Alignment::Right),
             ])
         })
         .skip(*scroll as usize)
