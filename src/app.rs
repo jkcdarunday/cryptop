@@ -115,7 +115,7 @@ pub fn draw_top_cryptos(
         Line::from("Volume (24h)").alignment(Alignment::Right),
     ];
 
-    let remaining_spaces = table_area.width.saturating_sub(3 + 16);
+    let remaining_spaces = table_area.width.saturating_sub(3 + 8);
     let remaining_columns = headers.len().saturating_sub(2);
     let column_spacing = 4;
     let column_spacing_offset = (headers.len() * column_spacing) / remaining_columns;
@@ -123,7 +123,7 @@ pub fn draw_top_cryptos(
         (remaining_spaces / remaining_columns as u16).saturating_sub(column_spacing_offset as u16);
     let widths = [
         Constraint::Max(3),
-        Constraint::Max(16),
+        Constraint::Max(8),
         Constraint::Max(column_width),
         Constraint::Max(column_width),
         Constraint::Max(column_width),
