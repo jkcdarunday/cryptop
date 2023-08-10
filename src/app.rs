@@ -50,7 +50,7 @@ impl AppState {
     }
 
     pub fn scroll_down_page(&mut self) {
-        if self.target_scroll < self.max_position() - self.scroll_area {
+        if self.target_scroll < self.max_position().saturating_sub(self.scroll_area) {
             self.target_scroll += self.scroll_area;
         } else {
             self.target_scroll = self.max_position();
@@ -68,15 +68,15 @@ impl AppState {
     pub fn animate(&mut self) {
         let diff = self.target_scroll as i32 - self.scroll as i32;
 
-        if diff > 1 {
+        if diff > 2 {
             self.scroll += (self.target_scroll - self.scroll) / 3;
         }
 
-        if diff.abs() <= 1 {
+        if diff.abs() <= 2 {
             self.scroll = self.target_scroll;
         }
 
-        if diff < -1 {
+        if diff < -2 {
             self.scroll -= (self.scroll - self.target_scroll) / 3;
         }
 
