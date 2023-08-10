@@ -185,7 +185,7 @@ pub fn draw_app(frame: &mut Frame<CrosstermBackend<Stdout>>, app: &mut AppState)
     } else {
         Margin {
             vertical: 3,
-            horizontal: 6,
+            horizontal: 9,
         }
     };
 
