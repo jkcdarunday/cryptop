@@ -21,8 +21,10 @@ use ratatui::prelude::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = setup_terminal()?;
-    run(&mut terminal)?;
+    let result = run(&mut terminal);
     restore_terminal(&mut terminal)?;
+
+    result?;
 
     Ok(())
 }
