@@ -1,3 +1,6 @@
+extern crate serde_json;
+extern crate ureq;
+
 pub mod app;
 pub mod data;
 pub mod utils;
@@ -15,8 +18,6 @@ use crossterm::{
 };
 use data::get_top_cryptos;
 use ratatui::prelude::*;
-extern crate serde_json;
-extern crate ureq;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = setup_terminal()?;
