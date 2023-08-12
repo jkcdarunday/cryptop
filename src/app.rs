@@ -192,7 +192,8 @@ pub fn draw_app(frame: &mut Frame<CrosstermBackend<Stdout>>, app: &mut AppState)
     let inner = size.inner(&margin);
 
     let block = Block::default()
-        .title("CrypTOP")
+        .title(" CrypTOP ")
+        .title_alignment(Alignment::Center)
         .borders(Borders::ALL)
         .border_style(Style::default().fg(Color::Red))
         .border_type(BorderType::Rounded);
