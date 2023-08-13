@@ -266,7 +266,7 @@ dependencies = [
 [[package]]
 name = "ratatui"
 version = "0.22.0"
-source = "git+https://github.com/jkcdarunday/ratatui?branch=feature/table-text-alignment#a143db707e2f543b8db93a83ab2568c4cd2f1e80"
+source = "git+https://github.com/ratatui-org/ratatui?branch=main#77487209634f26da32bc59d9280769d80cc7c25c"
 dependencies = [
  "bitflags 2.4.0",
  "cassowary",
