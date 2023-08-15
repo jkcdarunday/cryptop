@@ -69,7 +69,7 @@ impl AppState {
     }
 
     pub fn select_down(&mut self) {
-        if self.selected >= self.top_cryptos.len() as u16 {
+        if self.selected >= self.top_cryptos.len() as u16 - 1 {
             return;
         }
 
