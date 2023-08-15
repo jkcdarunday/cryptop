@@ -4,7 +4,7 @@ extern crate ureq;
 use std::{error::Error, io::Stdout, time::Duration};
 
 use anyhow::Result;
-use crossterm::event::{self, Event, KeyCode};
+use crossterm::event::{self, Event, KeyCode, KeyModifiers};
 use ratatui::{prelude::*, widgets::*};
 
 use crate::{
@@ -274,12 +274,22 @@ pub fn handle_event(app: &mut AppState) -> Result<bool, Box<dyn Error>> {
 
     if let Event::Key(k) = event::read()? {
         match k.code {
-            KeyCode::Down => {
-                app.select_down();
-            }
-            KeyCode::Up => {
-                app.select_up();
-            }
+            KeyCode::Down => match k.modifiers {
+                KeyModifiers::SHIFT => {
+                    app.scroll_down();
+                }
+                _ => {
+                    app.select_down();
+                }
+            },
+            KeyCode::Up => match k.modifiers {
+                KeyModifiers::SHIFT => {
+                    app.scroll_up();
+                }
+                _ => {
+                    app.select_up();
+                }
+            },
             KeyCode::Char('r') => {
                 app.top_cryptos = get_top_cryptos()?;
             }
