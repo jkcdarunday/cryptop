@@ -19,6 +19,7 @@ pub struct AppState {
     pub target_scroll: u16,
     pub scroll_area: u16,
     pub scroll_state: ScrollbarState,
+    pub selected: u16,
 }
 
 impl AppState {
@@ -31,6 +32,40 @@ impl AppState {
 
     fn max_position(&self) -> u16 {
         (self.top_cryptos.len() as u16).saturating_sub(self.scroll_area)
+    }
+
+    fn scroll_to_selected(&mut self) {
+        if self.selected < self.scroll {
+            self.scroll = self.selected;
+            self.target_scroll = self.scroll;
+            self.scroll_state = self.scroll_state.position(self.scroll);
+        }
+
+        if self.selected >= self.scroll + self.scroll_area {
+            self.scroll = self.selected - self.scroll_area + 1;
+            self.target_scroll = self.scroll;
+            self.scroll_state = self.scroll_state.position(self.scroll);
+        }
+    }
+
+    pub fn select_up(&mut self) {
+        if self.selected == 0 {
+            return;
+        }
+
+        self.selected -= 1;
+
+        self.scroll_to_selected();
+    }
+
+    pub fn select_down(&mut self) {
+        if self.selected >= self.top_cryptos.len() as u16 {
+            return;
+        }
+
+        self.selected += 1;
+
+        self.scroll_to_selected();
     }
 
     pub fn scroll_up(&mut self) {
@@ -155,6 +190,11 @@ pub fn draw_top_cryptos(
                 Line::from(format_price(crypto.market_cap)).alignment(Alignment::Right),
                 Line::from(format_price(crypto.volume_24h)).alignment(Alignment::Right),
             ])
+            .style(if app.selected == index as u16 {
+                Style::default().fg(Color::Black).bg(Color::DarkGray)
+            } else {
+                Style::default()
+            })
         })
         .skip(*scroll as usize)
         .collect();
@@ -211,10 +251,10 @@ pub fn handle_event(app: &mut AppState) -> Result<bool, Box<dyn Error>> {
     if let Event::Key(k) = event::read()? {
         match k.code {
             KeyCode::Down => {
-                app.scroll_down();
+                app.select_down();
             }
             KeyCode::Up => {
-                app.scroll_up();
+                app.select_up();
             }
             KeyCode::Char('r') => {
                 app.top_cryptos = get_top_cryptos()?;
