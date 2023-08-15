@@ -1,4 +1,4 @@
-# CrypTop 
+# CrypTop
 ![](https://github.com/jkcdarunday/cryptop/actions/workflows/lint.yml/badge.svg)
 
 A CLI tool written in Rust for displaying the prices of top cryptocurrencies
