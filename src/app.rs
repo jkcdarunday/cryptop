@@ -48,6 +48,16 @@ impl AppState {
         }
     }
 
+    fn select_within_view(&mut self) {
+        if self.selected < self.scroll {
+            self.selected = self.scroll;
+        }
+
+        if self.selected >= self.scroll + self.scroll_area {
+            self.selected = self.scroll + self.scroll_area - 1;
+        }
+    }
+
     pub fn select_up(&mut self) {
         if self.selected == 0 {
             return;
@@ -74,6 +84,8 @@ impl AppState {
             self.target_scroll = self.scroll;
             self.scroll_state = self.scroll_state.position(self.scroll);
         }
+
+        self.select_within_view();
     }
 
     pub fn scroll_down(&mut self) {
@@ -82,6 +94,8 @@ impl AppState {
             self.target_scroll = self.scroll;
             self.scroll_state = self.scroll_state.position(self.scroll);
         }
+
+        self.select_within_view()
     }
 
     pub fn scroll_down_page(&mut self) {
@@ -116,6 +130,8 @@ impl AppState {
         }
 
         self.scroll_state = self.scroll_state.position(self.scroll);
+
+        self.select_within_view();
     }
 }
 
