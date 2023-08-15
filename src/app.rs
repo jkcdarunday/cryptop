@@ -99,6 +99,10 @@ impl AppState {
     }
 
     pub fn scroll_down_page(&mut self) {
+        if self.scroll == self.max_position() {
+            self.selected = self.top_cryptos.len() as u16 - 1;
+        }
+
         if self.target_scroll < self.max_position().saturating_sub(self.scroll_area) {
             self.target_scroll += self.scroll_area;
         } else {
@@ -107,6 +111,10 @@ impl AppState {
     }
 
     pub fn scroll_up_page(&mut self) {
+        if self.scroll == 0 {
+            self.selected = 0;
+        }
+
         if self.target_scroll > self.scroll_area {
             self.target_scroll -= self.scroll_area;
         } else {
